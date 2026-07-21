@@ -11,11 +11,11 @@ from meta_rl.pearl.algorithm.meta_learner import MetaLearner
 from meta_rl.pearl.algorithm.sac import SAC
 
 if __name__ == "__main__":
-    # 실험 환경 설정에 대한 하이퍼파라미터들 불러오기
+    # 环境超参
     with open(os.path.join("configs", "experiment_config.yaml"), "r", encoding="utf-8") as file:
         experiment_config: Dict[str, Any] = yaml.load(file, Loader=yaml.FullLoader)
 
-    # 목표 보상 설정에 대한 하이퍼파라미터들 불러오기
+    # 奖励超参
     with open(
         os.path.join("configs", experiment_config["env_name"] + "_target_config.yaml"),
         "r",
@@ -23,13 +23,13 @@ if __name__ == "__main__":
     ) as file:
         env_target_config: Dict[str, Any] = yaml.load(file, Loader=yaml.FullLoader)
 
-    # 멀티-태스크 환경과 샘플 태스크들 생성
+    # 创建多任务环境和样例任务
     env: HalfCheetahEnv = ENVS["cheetah-" + experiment_config["env_name"]](
         num_tasks=env_target_config["train_tasks"] + env_target_config["test_tasks"],
     )
     tasks: List[int] = env.get_all_task_idx()
 
-    # 랜덤 시드 값 설정
+    # 设置随机seed
     env.reset(seed=experiment_config["seed"])
     np.random.seed(experiment_config["seed"])
     torch.manual_seed(experiment_config["seed"])
@@ -72,5 +72,5 @@ if __name__ == "__main__":
         **env_target_config["pearl_params"],
     )
 
-    # PEARL 학습 시작
+    # 训练
     meta_learner.meta_train()
