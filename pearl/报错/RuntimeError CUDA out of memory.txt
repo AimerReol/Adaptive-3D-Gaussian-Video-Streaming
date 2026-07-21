@@ -1,0 +1,28 @@
+RuntimeError: CUDA out of memory. 
+Tried to allocate 12.32 GiB (GPU 0; 9.89 GiB total capacity; 
+9.54 GiB already allocated; 9.12 GiB free; 9.62 GiB reserved in total by PyTorch).
+
+Stack trace (most recent call last):
+  File "train_pointcloud.py", line 127, in <module>
+    outputs = model(batch_points)
+  File "/home/user/.conda/envs/pytorch/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    result = forward_call(*input, **kwargs)
+  File "model.py", line 45, in forward
+    x = self.transformer_encoder(x)  # Shape: [batch_size=8, num_points=1e6, feature_dim=256]
+  File "/home/user/.conda/envs/pytorch/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    result = forward_call(*input, **kwargs)
+  File "/home/user/.conda/envs/pytorch/lib/python3.8/site-packages/torch/nn/modules/transformer.py", line 128, in forward
+    return self.encoder(src, mask, src_key_padding_mask)
+  File "/home/user/.conda/envs/pytorch/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    result = forward_call(*input, **kwargs)
+  File "/home/user/.conda/envs/pytorch/lib/python3.8/site-packages/torch/nn/modules/container.py", line 139, in forward
+    input = module(input)
+  File "/home/user/.conda/envs/pytorch/lib/python3.8/site-packages/torch/nn/modules/module.py", line 1130, in _call_impl
+    result = forward_call(*input, **kwargs)
+  File "/home/user/.conda/envs/pytorch/lib/python3.8/site-packages/torch/nn/modules/activation.py", line 1027, in forward
+    return F.multi_head_attention_forward(
+  File "/home/user/.conda/envs/pytorch/lib/python3.8/site-packages/torch/nn/functional.py", line 5549, in multi_head_attention_forward
+    attn_output = scaled_dot_product_attention(q, k, v, attn_mask, dropout_p)
+  File "/home/user/.conda/envs/pytorch/lib/python3.8/site-packages/torch/nn/functional.py", line 2286, in scaled_dot_product_attention
+    attn = (q @ k.transpose(-2, -1)) * (1.0 / math.sqrt(q.size(-1)))
+torch.cuda.OutOfMemoryError: CUDA out of memory. 

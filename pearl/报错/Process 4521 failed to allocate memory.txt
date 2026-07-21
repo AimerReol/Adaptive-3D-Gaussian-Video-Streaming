@@ -1,0 +1,20 @@
+[2025-3-19 14:30:22,123] ERROR - Process 4521 failed to allocate memory.
+Traceback (most recent call last):
+  File "train_meta_learner.py", line 45, in <module>
+    data_chunk = np.load('3dgs_cloud_dataset.npy', mmap_mode='r')
+  File "/usr/local/lib/python3.8/site-packages/numpy/lib/npyio.py", line 428, in load
+    return pickle.load(fid, **pickle_kwargs)
+  File "/usr/local/lib/python3.8/site-packages/numpy/lib/format.py", line 764, in read_array
+    array = numpy.ndarray(count, dtype=dtype)
+numpy.core._exceptions.MemoryError: Unable to allocate 25.4 GiB for an array with shape (100000, 1000000, 3) and data type float32
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "train_meta_learner.py", line 48, in <module>
+    data_chunk = np.memmap('point_cloud_dataset.npy', dtype='float32', mode='r', shape=(100000, 1000000, 3))
+  File "/usr/local/lib/python3.8/site-packages/numpy/core/memmap.py", line 264, in __new__
+    mm = mmap.mmap(fid.fileno(), bytes, access=acc, offset=start)
+OSError: [Errno 12] Cannot allocate memory by mmap
+
+
