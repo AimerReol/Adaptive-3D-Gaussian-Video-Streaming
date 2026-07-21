@@ -67,11 +67,11 @@ class QNetwork(tf.keras.Model):
         super().__init__()
         # 全连接层，带有泄露的激活函数，units=s_len表示该层的神经元数量为s_len，也是输出空间的维度
         self.dense1 = tf.keras.layers.Dense(units=hide_units, activation=tf.keras.layers.LeakyReLU(alpha=0.02))
-        # Dropout是一种正则化技术，用于防止过拟合。
+        # Dropout，正则化，用于防止过拟合。
         # 其中参数0.05表示每个神经元被设置为0的概率为5%。
         # 这意味着在训练过程中，大约5%的神经元会被随机设置为0。
         self.drop1 = tf.keras.layers.Dropout(0.05)
-        # LayerNormalization是一种归一化技术，用于加速神经网络的训练过程并提高模型的性能。
+        # LayerNormalization，归一化，加速神经网络的训练过程并提高模型的性能。
         # 其中参数axis=-1表示对最后一个维度进行归一化。这意味着在训练过程中，该层的输入数据会被归一化到均值为0、标准差为1的分布上。
         self.bn1 = tf.keras.layers.LayerNormalization(axis=-1)
         # self.bn1 = tf.keras.layers.BatchNormalization(axis=-1)
@@ -138,7 +138,7 @@ class QNetwork(tf.keras.Model):
         return tf.argmax(q_values, axis=1)
 
 
-# Target网络的主要作用是生成目标Q值，以减小训练过程中的估计误差。
+# Target网络，生成目标Q值，以减小训练过程中的估计误差。
 # 一开始，Q网络和Target网络的参数是相同的。然后每隔一定的时间步，就会将Q网络的参数同步给Target网络。
 # 这样做的原因是，由于Target网络的参数相对固定，可以用它来获取稳定的Q值
 # 从而减少高估现象的发生。而Q网络则负责不断地更新和优化，以逼近真实的Q值函数。
